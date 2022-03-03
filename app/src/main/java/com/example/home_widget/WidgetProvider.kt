@@ -6,15 +6,10 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.RemoteViews
-import java.text.SimpleDateFormat
-import java.util.*
 
 class WidgetProvider : AppWidgetProvider() {
-    private val sdf = SimpleDateFormat("yyyy/MM/dd\nHH시 mm분 ss초 SSS", Locale.KOREA)
 
-    // 모든 브로드캐스트에서 아래의의 각 콜백 메서드 이전에 호출
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
 
@@ -27,22 +22,6 @@ class WidgetProvider : AppWidgetProvider() {
         }
     }
 
-    // 앱 위젯의 인스턴스가 처음으로 생성될 때 호출
-    override fun onEnabled(context: Context?) {
-        super.onEnabled(context)
-    }
-
-    // 앱 위젯의 마지막 인스턴스가 앱 위젯 호스트에서 삭제될 때 호출
-    override fun onDisabled(context: Context?) {
-        super.onDisabled(context)
-    }
-
-    // 앱 위젯이 앱 위젯 호스트에서 삭제될 때마다 호출
-    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        super.onDeleted(context, appWidgetIds)
-    }
-
-    // updatePeriodMillis 속성에 의해 정의된 간격으로 앱 위젯을 업데이트하기 위해 호출
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -50,23 +29,11 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
         appWidgetIds?.forEach { appWidgetId ->
-            val views: RemoteViews = setViews(context)
-            appWidgetManager?.updateAppWidget(appWidgetId, views)
+            val remoteViews = RemoteViews(context?.packageName, R.layout.widget_main)
+            remoteViews.setOnClickPendingIntent(R.id.button1,updateWidget(context))
+            updateRandomView(context,remoteViews)
+            appWidgetManager?.updateAppWidget(appWidgetId, remoteViews)
         }
-    }
-
-    // 위젯이 처음으로 배치될 때와 위젯의 크기가 조절될 때 호출
-    override fun onAppWidgetOptionsChanged(
-        context: Context?,
-        appWidgetManager: AppWidgetManager?,
-        appWidgetId: Int,
-        newOptions: Bundle?) {
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-    }
-
-    private fun goActivity(context: Context?): PendingIntent {
-        val intent = Intent(context,MainActivity::class.java)
-        return PendingIntent.getActivity(context, 0, intent, flags)
     }
 
     private fun updateWidget(context: Context?): PendingIntent {
@@ -75,12 +42,20 @@ class WidgetProvider : AppWidgetProvider() {
         return PendingIntent.getBroadcast(context,0,intent,flags)
     }
 
-    private fun setViews(context: Context?): RemoteViews {
-        val remoteViews = RemoteViews(context?.packageName, R.layout.home_widget)
-        remoteViews.setTextViewText(R.id.textView,sdf.format(System.currentTimeMillis()))
-        remoteViews.setOnClickPendingIntent(R.id.button1,updateWidget(context))
-        remoteViews.setOnClickPendingIntent(R.id.button2, goActivity(context))
-        return remoteViews
+    private fun updateRandomView(context: Context?, parentRemoteViews: RemoteViews) {
+        context?.let {
+            val range = (1..7)
+            val packageName = context.packageName
+            for (i in 1..3) {
+                val id = it.resources.getIdentifier("linearLayoutWidget$i", "id", packageName)
+                parentRemoteViews.removeAllViews(id)
+                for (i2 in 1..range.random()) {
+                    val childRemoteViews = RemoteViews(packageName,R.layout.widget_item)
+                    childRemoteViews.setTextViewText(R.id.textView1,i2.toString())
+                    parentRemoteViews.addView(id,childRemoteViews)
+                }
+            }
+        }
     }
 
     companion object {

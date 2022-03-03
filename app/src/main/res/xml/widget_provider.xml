@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minHeight="330dp"
-    android:minWidth="330dp"
-    android:initialLayout="@layout/home_widget"
+    android:minHeight="240dp"
+    android:minWidth="240dp"
+    android:initialLayout="@layout/widget_main"
     android:updatePeriodMillis="86400000"
     android:resizeMode="horizontal|vertical"
     android:previewImage="@drawable/slowmotion"

@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/82102/android_app_widget_example/app/src/main/res/layout/home_widget.xml" value="0.27239583333333334" />
+        <entry key="..\:/Users/82102/android_app_widget_example/app/src/main/res/layout/widget_calendar_daily.xml" value="0.27239583333333334" />
+        <entry key="..\:/Users/82102/android_app_widget_example/app/src/main/res/layout/widget_item.xml" value="0.27239583333333334" />
+        <entry key="..\:/Users/82102/android_app_widget_example/app/src/main/res/layout/widget_main.xml" value="0.25" />
         <entry key="..\:/Users/82102/home_widget/app/src/main/res/layout/activity_main.xml" value="0.2578125" />
         <entry key="..\:/Users/82102/home_widget/app/src/main/res/layout/home_widget.xml" value="0.1712962962962963" />
         <entry key="..\:/Users/82102/home_widget/app/src/main/res/xml/widget_provider.xml" value="0.1712962962962963" />
